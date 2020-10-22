@@ -3,7 +3,7 @@
 ### 使用
 
 ```
-import ds "github/shameby/data-structures"
+import ds "github.com/shameby/data-structures"
 ```
 
 ### Set
