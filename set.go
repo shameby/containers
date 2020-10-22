@@ -12,10 +12,12 @@ type Set interface {
 	ToList() IList
 }
 
+// 非线程安全的 Set, 无锁, 开销较小
 type normalSet struct {
 	m map[interface{}]int
 }
 
+// 线程安全的 Set, 自带读写锁, 开销较大
 type concurrencySet struct {
 	m map[interface{}]int
 	sync.RWMutex
@@ -28,7 +30,7 @@ func NewSet(isConcurrency bool) Set {
 		}
 	}
 
-	return &concurrencySet{
+	return &normalSet{
 		m: make(map[interface{}]int),
 	}
 
