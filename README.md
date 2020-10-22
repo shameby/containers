@@ -1,6 +1,6 @@
 ### 一个Go的并发安全基本数据结构的实践
 
-###使用
+### 使用
 
 ```
 import ds "github/shameby/data-structures"
