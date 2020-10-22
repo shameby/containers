@@ -23,14 +23,15 @@ type concurrencySet struct {
 
 func NewSet(isConcurrency bool) Set {
 	if isConcurrency {
-		return &normalSet{
-			m: make(map[interface{}]int),
-		}
-	} else {
 		return &concurrencySet{
 			m: make(map[interface{}]int),
 		}
 	}
+
+	return &concurrencySet{
+		m: make(map[interface{}]int),
+	}
+
 }
 
 // normalSet
