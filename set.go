@@ -4,14 +4,6 @@ import (
 	"sync"
 )
 
-type Set interface {
-	Add(interface{}) bool
-	Adds(...interface{}) bool
-	Delete(interface{}) bool
-	IsExist(interface{}) bool
-	ToList() IList
-}
-
 // 非线程安全的 Set, 无锁, 开销较小
 type normalSet struct {
 	m map[interface{}]int
