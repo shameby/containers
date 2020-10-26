@@ -31,6 +31,8 @@ type Deque interface {
 type BinaryTree interface {
 	Insert(int64) *normalBinaryTree
 	Inserts(l []int64) *normalBinaryTree
+	Search(int64) int
+	Delete(int64) int
 	Len() int
 	InorderTraversal() []int64
 	PreorderTraversal() []int64

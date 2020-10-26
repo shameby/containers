@@ -7,54 +7,82 @@ type binaryTreeNode struct {
 	right *binaryTreeNode
 }
 
-func (tn *binaryTreeNode) insert(i int64) {
+func (ntn *binaryTreeNode) insert(i int64) {
 	switch {
-	case i < tn.val:
-		if tn.left == nil {
-			tn.left = initTreeNode(i)
+	case i < ntn.val:
+		if ntn.left == nil {
+			ntn.left = initTreeNode(i)
 			return
 		}
-		tn.left.insert(i)
-	case i > tn.val:
-		if tn.right == nil {
-			tn.right = initTreeNode(i)
+		ntn.left.insert(i)
+	case i > ntn.val:
+		if ntn.right == nil {
+			ntn.right = initTreeNode(i)
 			return
 		}
-		tn.right.insert(i)
+		ntn.right.insert(i)
 	default:
-		tn.count++
+		ntn.count++
 	}
 }
 
-func (tn *binaryTreeNode) inorder(res *[]int64) {
-	if tn == nil {
-		return
+func (ntn *binaryTreeNode) search(i int64) int {
+	switch {
+	case i < ntn.val:
+		if ntn.left != nil {
+			return ntn.left.search(i)
+		}
+	case i > ntn.val:
+		if ntn.right != nil {
+			return ntn.right.search(i)
+		}
+	default:
+		return ntn.count
 	}
-	tn.left.inorder(res)
-	for i := 1; i <= tn.count; i++ {
-		*res = append(*res, tn.val)
-	}
-	tn.right.inorder(res)
+	return 0
 }
 
-func (tn *binaryTreeNode) preorder(res *[]int64) {
-	if tn == nil {
-		return
+func (ntn *binaryTreeNode) inorder(res *[]int64) {
+	if ntn != nil {
+		ntn.left.inorder(res)
+		for i := 1; i <= ntn.count; i++ {
+			*res = append(*res, ntn.val)
+		}
+		ntn.right.inorder(res)
 	}
-	for i := 1; i <= tn.count; i++ {
-		*res = append(*res, tn.val)
-	}
-	tn.left.preorder(res)
-	tn.right.preorder(res)
 }
 
-func (tn *binaryTreeNode) postorder(res *[]int64) {
-	if tn == nil {
-		return
+func (ntn *binaryTreeNode) preorder(res *[]int64) {
+	if ntn != nil {
+		for i := 1; i <= ntn.count; i++ {
+			*res = append(*res, ntn.val)
+		}
+		ntn.left.preorder(res)
+		ntn.right.preorder(res)
 	}
-	tn.left.postorder(res)
-	tn.right.postorder(res)
-	for i := 1; i <= tn.count; i++ {
-		*res = append(*res, tn.val)
+}
+
+func (ntn *binaryTreeNode) postorder(res *[]int64) {
+	if ntn != nil {
+		ntn.left.postorder(res)
+		ntn.right.postorder(res)
+		for i := 1; i <= ntn.count; i++ {
+			*res = append(*res, ntn.val)
+		}
 	}
+}
+
+func (ntn *binaryTreeNode) getSuccessor() *binaryTreeNode {
+	var sucParent *binaryTreeNode = nil
+	suc, cur := ntn.right, ntn.right
+	for cur != nil {
+		sucParent = suc
+		suc = cur
+		cur = cur.left
+	}
+	if suc != ntn.right {
+		sucParent.left = suc.right
+		suc.right = ntn.right
+	}
+	return suc
 }
