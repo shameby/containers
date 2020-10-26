@@ -63,6 +63,9 @@ func (ns normalStack) ToList() IList {
 }
 
 func (ns normalStack) Top() interface{} {
+	if ns.topPtr == 0 {
+		return nil
+	}
 	return ns.l[ns.topPtr-1]
 }
 
@@ -109,5 +112,8 @@ func (cs concurrencyStack) ToList() IList {
 func (cs concurrencyStack) Top() interface{} {
 	cs.RLock()
 	defer cs.RUnlock()
+	if cs.topPtr == 0 {
+		return nil
+	}
 	return cs.l[cs.topPtr-1]
 }
