@@ -27,3 +27,12 @@ type Deque interface {
 	IsFull() bool
 	ToList() IList
 }
+
+type BinaryTree interface {
+	Insert(int64) *normalBinaryTree
+	Inserts(l []int64) *normalBinaryTree
+	Len() int
+	InorderTraversal() []int64
+	PreorderTraversal() []int64
+	PostorderTraversal() []int64
+}
