@@ -7,16 +7,6 @@ type dequeArr struct {
 	rear   int
 }
 
-// 底层为数组的双端队列
-func NewDequeArr(k int) Deque {
-	return &dequeArr{
-		length: k + 1,
-		data:   make([]interface{}, k+1), //空一个位置区分满和空
-		head:   0,
-		rear:   0,
-	}
-}
-
 func (dqr *dequeArr) InsertFront(value interface{}) bool {
 	if dqr.IsFull() {
 		return false

@@ -13,14 +13,6 @@ type dequeL struct {
 	maxLen int
 }
 
-// 底层为链表的双端队列
-func NewDequeL(k int) *dequeL {
-	return &dequeL{
-		curLen: 0,
-		maxLen: k,
-	}
-}
-
 func (dq *dequeL) InsertFront(value interface{}) bool {
 	if dq.IsFull() {
 		return false

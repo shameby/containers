@@ -1,14 +1,8 @@
 package data_structures
 
-type normalBinaryTree struct {
+type binaryTree struct {
 	root *binaryTreeNode
 	len  int
-}
-
-func NewBinaryTree() BinaryTree {
-	return &normalBinaryTree{
-		nil, 0,
-	}
 }
 
 func initTreeNode(i int64) *binaryTreeNode {
@@ -17,70 +11,70 @@ func initTreeNode(i int64) *binaryTreeNode {
 	}
 }
 
-func (nbt *normalBinaryTree) Insert(i int64) *normalBinaryTree {
-	if nbt.root == nil {
-		nbt.root = initTreeNode(i)
-		nbt.len++
-		return nbt
+func (bt *binaryTree) Insert(i int64) BinaryTree {
+	if bt.root == nil {
+		bt.root = initTreeNode(i)
+		bt.len++
+		return bt
 	}
-	nbt.root.insert(i)
-	nbt.len++
-	return nbt
+	bt.root.insert(i)
+	bt.len++
+	return bt
 }
 
-func (nbt *normalBinaryTree) Inserts(l []int64) *normalBinaryTree {
+func (bt *binaryTree) Inserts(l []int64) BinaryTree {
 	if len(l) == 0 {
-		return nbt
+		return bt
 	}
-	if nbt.root == nil {
-		nbt.root = initTreeNode(l[0])
+	if bt.root == nil {
+		bt.root = initTreeNode(l[0])
 	}
 	for i := 1; i < len(l); i++ {
-		nbt.root.insert(l[i])
+		bt.root.insert(l[i])
 	}
-	return nbt
+	return bt
 }
 
-func (nbt *normalBinaryTree) Search(i int64) int {
-	if nbt.root == nil {
+func (bt *binaryTree) Search(i int64) int {
+	if bt.root == nil {
 		return 0
 	}
-	return nbt.root.search(i)
+	return bt.root.search(i)
 }
 
-func (nbt *normalBinaryTree) Len() int {
-	return nbt.len
+func (bt *binaryTree) Len() int {
+	return bt.len
 }
 
-func (nbt *normalBinaryTree) InorderTraversal() (res []int64) {
-	if nbt.root == nil {
+func (bt *binaryTree) InorderTraversal() (res []int64) {
+	if bt.root == nil {
 		return nil
 	}
-	nbt.root.inorder(&res)
+	bt.root.inorder(&res)
 	return res
 }
 
-func (nbt *normalBinaryTree) PreorderTraversal() (res []int64) {
-	if nbt.root == nil {
+func (bt *binaryTree) PreorderTraversal() (res []int64) {
+	if bt.root == nil {
 		return nil
 	}
-	nbt.root.preorder(&res)
+	bt.root.preorder(&res)
 	return res
 }
 
-func (nbt *normalBinaryTree) PostorderTraversal() (res []int64) {
-	if nbt.root == nil {
+func (bt *binaryTree) PostorderTraversal() (res []int64) {
+	if bt.root == nil {
 		return nil
 	}
-	nbt.root.postorder(&res)
+	bt.root.postorder(&res)
 	return res
 }
 
-func (nbt *normalBinaryTree) Delete(i int64) int {
-	if nbt.root == nil {
+func (bt *binaryTree) Delete(i int64) int {
+	if bt.root == nil {
 		return 0
 	}
-	parent, cur := nbt.root, nbt.root
+	parent, cur := bt.root, bt.root
 	isLeft := true
 	for {
 		if i < cur.val {
@@ -111,9 +105,9 @@ func (nbt *normalBinaryTree) Delete(i int64) int {
 	}
 	// 要删除的节点是叶子节点
 	if cur.left == nil && cur.right == nil {
-		if cur == nbt.root {
+		if cur == bt.root {
 			// 特殊情况，只有根节点且根节点就被删除
-			nbt.root = nil
+			bt.root = nil
 		} else if isLeft {
 			parent.left = nil
 		} else {
@@ -121,8 +115,8 @@ func (nbt *normalBinaryTree) Delete(i int64) int {
 		}
 		// 要删的节点只有左节点
 	} else if cur.right == nil {
-		if cur == nbt.root {
-			nbt.root = cur.left
+		if cur == bt.root {
+			bt.root = cur.left
 		} else if isLeft {
 			parent.left = cur.left
 		} else {
@@ -130,8 +124,8 @@ func (nbt *normalBinaryTree) Delete(i int64) int {
 		}
 		// 要删的节点只有右节点
 	} else if cur.left == nil {
-		if cur == nbt.root {
-			nbt.root = cur.right
+		if cur == bt.root {
+			bt.root = cur.right
 		} else if isLeft {
 			parent.left = cur.right
 		} else {
@@ -140,8 +134,8 @@ func (nbt *normalBinaryTree) Delete(i int64) int {
 	} else {
 		// 最复杂的情况，既有左节点又有右节点
 		suc := cur.getSuccessor()
-		if cur == nbt.root {
-			nbt.root = suc
+		if cur == bt.root {
+			bt.root = suc
 		} else if isLeft {
 			parent.left = suc
 		} else {

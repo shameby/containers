@@ -29,8 +29,8 @@ type Deque interface {
 }
 
 type BinaryTree interface {
-	Insert(int64) *normalBinaryTree
-	Inserts(l []int64) *normalBinaryTree
+	Insert(int64) BinaryTree
+	Inserts(l []int64) BinaryTree
 	Search(int64) int
 	Delete(int64) int
 	Len() int
