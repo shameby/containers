@@ -1,11 +1,5 @@
 package data_structures
 
-type duLNode struct {
-	val interface{}
-	pre *duLNode
-	nex *duLNode
-}
-
 type dequeL struct {
 	head   *duLNode
 	tail   *duLNode

@@ -47,6 +47,15 @@ func (cbt *concurrencyBinaryTree) Search(i int64) int {
 	return cbt.root.search(i)
 }
 
+func (cbt *concurrencyBinaryTree) Depth() int {
+	cbt.RLock()
+	defer cbt.RUnlock()
+	if cbt.root == nil {
+		return 0
+	}
+	return cbt.root.depth()
+}
+
 func (cbt *concurrencyBinaryTree) Len() int {
 	cbt.RLock()
 	defer cbt.RUnlock()

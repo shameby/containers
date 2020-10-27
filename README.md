@@ -8,6 +8,7 @@ import ds "github.com/shameby/containers"
 
 ### 支持的数据结构有
 
+- Queue 队列
 - Set 集合
 - Stack 栈
 - DequeArr 底层为数组的双端队列

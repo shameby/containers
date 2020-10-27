@@ -1,5 +1,13 @@
 package data_structures
 
+type Queue interface {
+	Push(interface{}) bool
+	Pop() interface{}
+	Len() int
+	IsEmpty() bool
+	IsFull() bool
+}
+
 type Stack interface {
 	Push(interface{}) bool
 	Pop() (bool, interface{})
@@ -33,6 +41,7 @@ type BinaryTree interface {
 	Inserts(l []int64) BinaryTree
 	Search(int64) int
 	Delete(int64) int
+	Depth() int
 	Len() int
 	InorderTraversal() []int64
 	PreorderTraversal() []int64

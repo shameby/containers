@@ -42,6 +42,13 @@ func (ntn *binaryTreeNode) search(i int64) int {
 	return 0
 }
 
+func (ntn *binaryTreeNode) depth() int {
+	if ntn != nil {
+		return maxInt(ntn.left.depth(), ntn.right.depth()) + 1
+	}
+	return 0
+}
+
 func (ntn *binaryTreeNode) inorder(res *[]int64) {
 	if ntn != nil {
 		ntn.left.inorder(res)

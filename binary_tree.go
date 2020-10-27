@@ -42,6 +42,13 @@ func (bt *binaryTree) Search(i int64) int {
 	return bt.root.search(i)
 }
 
+func (bt *binaryTree) Depth() int {
+	if bt.root == nil {
+		return 0
+	}
+	return bt.root.depth()
+}
+
 func (bt *binaryTree) Len() int {
 	return bt.len
 }

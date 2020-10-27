@@ -1,5 +1,13 @@
 package data_structures
 
+// 队列
+func NewQueue(len int, isConcurrency bool) Queue {
+	if isConcurrency {
+		return &queue{maxLen: len}
+	}
+	return &queue{maxLen: len}
+}
+
 // 集合
 func NewSet(isConcurrency bool) Set {
 	if isConcurrency {
