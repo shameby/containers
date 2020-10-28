@@ -19,11 +19,22 @@ import ds "github.com/shameby/containers"
 初始化
 
 ```
-NewSet(isConcurrency bool) Set
+NewSet(locker) Set
 ```
 
 初始化参数
 
 |参数名|类型|说明|
 |:---|:----- |----|
-|isConcurrency|bool|true为并发安全，反之则不是|
+|locker|RWLocker|locker为实现了接口RWLocker的类型(见文底)，如果不需要并发，传nil|
+
+### RWLocker
+
+```
+type RWLocker interface {
+	Lock()
+	Unlock()
+	RLock()
+	RUnlock()
+}
+```
