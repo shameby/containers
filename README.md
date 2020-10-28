@@ -26,7 +26,7 @@ NewSet(locker) Set
 
 |参数名|类型|说明|
 |:---|:----- |----|
-|locker|RWLocker|locker为实现了接口RWLocker的类型(见文底)，如果不需要并发，传nil|
+|locker|RWLocker|locker为实现了接口RWLocker类型(见文底)的引用，如果不需要并发，传nil|
 
 ### RWLocker
 
