@@ -1,13 +1,9 @@
-package data_structures
-
-import (
-	"sync"
-)
+package containers
 
 type concurrencyBinaryTree struct {
-	root *binaryTreeNode
-	len  int
-	sync.RWMutex
+	root   *binaryTreeNode
+	curLen int
+	RWLocker
 }
 
 func (cbt *concurrencyBinaryTree) Insert(i int64) BinaryTree {
@@ -15,11 +11,11 @@ func (cbt *concurrencyBinaryTree) Insert(i int64) BinaryTree {
 	defer cbt.Unlock()
 	if cbt.root == nil {
 		cbt.root = initTreeNode(i)
-		cbt.len++
+		cbt.curLen++
 		return cbt
 	}
 	cbt.root.insert(i)
-	cbt.len++
+	cbt.curLen++
 	return cbt
 }
 
@@ -59,7 +55,11 @@ func (cbt *concurrencyBinaryTree) Depth() int {
 func (cbt *concurrencyBinaryTree) Len() int {
 	cbt.RLock()
 	defer cbt.RUnlock()
-	return cbt.len
+	return cbt.len()
+}
+
+func (cbt *concurrencyBinaryTree) len() int {
+	return cbt.curLen
 }
 
 func (cbt *concurrencyBinaryTree) InorderTraversal() (res []int64) {

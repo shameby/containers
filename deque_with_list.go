@@ -1,4 +1,4 @@
-package data_structures
+package containers
 
 type dequeL struct {
 	head   *duLNode
@@ -8,13 +8,13 @@ type dequeL struct {
 }
 
 func (dq *dequeL) InsertFront(value interface{}) bool {
-	if dq.IsFull() {
+	if dq.isFull() {
 		return false
 	}
 	dln := &duLNode{
 		val: value,
 	}
-	if dq.IsEmpty() {
+	if dq.isEmpty() {
 		dq.head, dq.tail = dln, dln
 		dq.curLen++
 		return true
@@ -27,13 +27,13 @@ func (dq *dequeL) InsertFront(value interface{}) bool {
 }
 
 func (dq *dequeL) InsertLast(value interface{}) bool {
-	if dq.IsFull() {
+	if dq.isFull() {
 		return false
 	}
 	dln := &duLNode{
 		val: value,
 	}
-	if dq.IsEmpty() {
+	if dq.isEmpty() {
 		dq.head, dq.tail = dln, dln
 		dq.curLen++
 		return true
@@ -46,7 +46,7 @@ func (dq *dequeL) InsertLast(value interface{}) bool {
 }
 
 func (dq *dequeL) DeleteFront() bool {
-	if dq.IsEmpty() {
+	if dq.isEmpty() {
 		return false
 	}
 
@@ -66,7 +66,7 @@ func (dq *dequeL) DeleteFront() bool {
 }
 
 func (dq *dequeL) DeleteLast() bool {
-	if dq.IsEmpty() {
+	if dq.isEmpty() {
 		return false
 	}
 
@@ -100,6 +100,10 @@ func (dq *dequeL) GetRear() interface{} {
 }
 
 func (dq *dequeL) IsEmpty() bool {
+	return dq.isEmpty()
+}
+
+func (dq *dequeL) isEmpty() bool {
 	if dq.head == nil && dq.tail == nil {
 		return true
 	}
@@ -107,6 +111,10 @@ func (dq *dequeL) IsEmpty() bool {
 }
 
 func (dq *dequeL) IsFull() bool {
+	return dq.isFull()
+}
+
+func (dq *dequeL) isFull() bool {
 	if dq.curLen == dq.maxLen {
 		return true
 	}
@@ -114,7 +122,7 @@ func (dq *dequeL) IsFull() bool {
 }
 
 func (dq dequeL) ToList() IList {
-	if dq.IsEmpty() {
+	if dq.isEmpty() {
 		return nil
 	}
 

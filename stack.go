@@ -1,4 +1,4 @@
-package data_structures
+package containers
 
 type stack struct {
 	l      []interface{}
@@ -31,7 +31,7 @@ func (s *stack) Pop() (bool, interface{}) {
 }
 
 func (s stack) Len() int {
-	return len(s.l)
+	return s.topPtr
 }
 
 func (s stack) ToList() IList {

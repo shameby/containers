@@ -1,4 +1,4 @@
-package data_structures
+package containers
 
 func maxInt(a, b int) int {
 	if a >= b {

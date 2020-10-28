@@ -1,4 +1,4 @@
-package data_structures
+package containers
 
 import "sync"
 
@@ -6,7 +6,7 @@ type concurrencyStack struct {
 	l      []interface{}
 	topPtr int
 	maxLen int
-	sync.RWMutex
+	RWLocker
 }
 
 // concurrencyStack
@@ -16,7 +16,6 @@ func (cs *concurrencyStack) Push(i interface{}) bool {
 	if cs.topPtr == cs.maxLen {
 		return false
 	}
-
 	cs.l[cs.topPtr] = i
 	cs.topPtr++
 
@@ -29,7 +28,6 @@ func (cs *concurrencyStack) Pop() (bool, interface{}) {
 	if cs.topPtr == 0 {
 		return false, nil
 	}
-
 	var res interface{}
 	res, cs.l[cs.topPtr-1] = cs.l[cs.topPtr-1], 0
 	cs.topPtr--
@@ -40,7 +38,7 @@ func (cs *concurrencyStack) Pop() (bool, interface{}) {
 func (cs concurrencyStack) Len() int {
 	cs.RLock()
 	defer cs.RUnlock()
-	return len(cs.l)
+	return cs.topPtr
 }
 
 func (cs concurrencyStack) ToList() IList {

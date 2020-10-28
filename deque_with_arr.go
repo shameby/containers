@@ -1,18 +1,18 @@
-package data_structures
+package containers
 
 type dequeArr struct {
-	length int
+	maxLen int
 	data   []interface{}
 	head   int
 	rear   int
 }
 
 func (dqr *dequeArr) InsertFront(value interface{}) bool {
-	if dqr.IsFull() {
+	if dqr.isFull() {
 		return false
 	}
-	if dqr.IsEmpty() {
-		if dqr.rear == dqr.length-1 {
+	if dqr.isEmpty() {
+		if dqr.rear == dqr.maxLen-1 {
 			dqr.rear = 0
 		} else {
 			dqr.rear++
@@ -22,7 +22,7 @@ func (dqr *dequeArr) InsertFront(value interface{}) bool {
 	}
 
 	if dqr.head == 0 {
-		dqr.head = dqr.length - 1
+		dqr.head = dqr.maxLen - 1
 	} else {
 		dqr.head--
 	}
@@ -31,12 +31,12 @@ func (dqr *dequeArr) InsertFront(value interface{}) bool {
 }
 
 func (dqr *dequeArr) InsertLast(value interface{}) bool {
-	if dqr.IsFull() {
+	if dqr.isFull() {
 		return false
 	}
-	if dqr.IsEmpty() {
+	if dqr.isEmpty() {
 		dqr.data[dqr.rear] = value
-		if dqr.rear == dqr.length-1 {
+		if dqr.rear == dqr.maxLen-1 {
 			dqr.rear = 0
 		} else {
 			dqr.rear++
@@ -45,7 +45,7 @@ func (dqr *dequeArr) InsertLast(value interface{}) bool {
 	}
 
 	dqr.data[dqr.rear] = value
-	if dqr.rear == dqr.length-1 {
+	if dqr.rear == dqr.maxLen-1 {
 		dqr.rear = 0
 	} else {
 		dqr.rear++
@@ -54,10 +54,10 @@ func (dqr *dequeArr) InsertLast(value interface{}) bool {
 }
 
 func (dqr *dequeArr) DeleteFront() bool {
-	if dqr.IsEmpty() {
+	if dqr.isEmpty() {
 		return false
 	}
-	if dqr.head == dqr.length-1 {
+	if dqr.head == dqr.maxLen-1 {
 		dqr.head = 0
 	} else {
 		dqr.head++
@@ -66,11 +66,11 @@ func (dqr *dequeArr) DeleteFront() bool {
 }
 
 func (dqr *dequeArr) DeleteLast() bool {
-	if dqr.IsEmpty() {
+	if dqr.isEmpty() {
 		return false
 	}
 	if dqr.rear == 0 {
-		dqr.rear = dqr.length - 1
+		dqr.rear = dqr.maxLen - 1
 	} else {
 		dqr.rear--
 	}
@@ -78,7 +78,7 @@ func (dqr *dequeArr) DeleteLast() bool {
 }
 
 func (dqr *dequeArr) GetFront() interface{} {
-	if dqr.IsEmpty() {
+	if dqr.isEmpty() {
 		return -1
 	}
 	return dqr.data[dqr.head]
@@ -86,21 +86,29 @@ func (dqr *dequeArr) GetFront() interface{} {
 }
 
 func (dqr *dequeArr) GetRear() interface{} {
-	if dqr.IsEmpty() {
+	if dqr.isEmpty() {
 		return -1
 	}
 	if dqr.rear == 0 {
-		return dqr.data[dqr.length-1]
+		return dqr.data[dqr.maxLen-1]
 	}
 	return dqr.data[dqr.rear-1]
 }
 
 func (dqr dequeArr) IsEmpty() bool {
+	return dqr.isEmpty()
+}
+
+func (dqr dequeArr) isEmpty() bool {
 	return dqr.head == dqr.rear
 }
 
 func (dqr dequeArr) IsFull() bool {
-	return (dqr.rear+1)%dqr.length == dqr.head
+	return dqr.isFull()
+}
+
+func (dqr dequeArr) isFull() bool {
+	return (dqr.rear+1)%dqr.maxLen == dqr.head
 }
 
 func (dqr dequeArr) ToList() IList {

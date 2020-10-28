@@ -1,4 +1,4 @@
-package data_structures
+package containers
 
 type queue struct {
 	head   *lNode
@@ -8,13 +8,13 @@ type queue struct {
 }
 
 func (q *queue) Push(i interface{}) bool {
-	if q.IsFull() {
+	if q.isFull() {
 		return false
 	}
 	if i == nil {
 		return false
 	}
-	ln := &lNode{val:i}
+	ln := &lNode{val: i}
 	if q.head == nil {
 		q.head = ln
 		q.tail = q.head
@@ -27,7 +27,7 @@ func (q *queue) Push(i interface{}) bool {
 }
 
 func (q *queue) Pop() interface{} {
-	if q.IsEmpty() {
+	if q.isEmpty() {
 		return nil
 	}
 	node := q.head
@@ -41,6 +41,10 @@ func (q queue) Len() int {
 }
 
 func (q queue) IsFull() bool {
+	return q.isFull()
+}
+
+func (q queue) isFull() bool {
 	if q.maxLen != -1 && q.maxLen == q.curLen {
 		return true
 	}
@@ -48,6 +52,10 @@ func (q queue) IsFull() bool {
 }
 
 func (q queue) IsEmpty() bool {
+	return q.isEmpty()
+}
+
+func (q queue) isEmpty() bool {
 	if q.curLen == 0 {
 		return true
 	}

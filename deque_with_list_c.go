@@ -1,20 +1,23 @@
-package data_structures
+package containers
 
 type concurrencyDequeL struct {
 	head   *duLNode
 	tail   *duLNode
 	curLen int
 	maxLen int
+	RWLocker
 }
 
 func (cdl *concurrencyDequeL) InsertFront(value interface{}) bool {
-	if cdl.IsFull() {
+	cdl.Lock()
+	defer cdl.Unlock()
+	if cdl.isFull() {
 		return false
 	}
 	dln := &duLNode{
 		val: value,
 	}
-	if cdl.IsEmpty() {
+	if cdl.isEmpty() {
 		cdl.head, cdl.tail = dln, dln
 		cdl.curLen++
 		return true
@@ -27,13 +30,15 @@ func (cdl *concurrencyDequeL) InsertFront(value interface{}) bool {
 }
 
 func (cdl *concurrencyDequeL) InsertLast(value interface{}) bool {
-	if cdl.IsFull() {
+	cdl.Lock()
+	defer cdl.Unlock()
+	if cdl.isFull() {
 		return false
 	}
 	dln := &duLNode{
 		val: value,
 	}
-	if cdl.IsEmpty() {
+	if cdl.isEmpty() {
 		cdl.head, cdl.tail = dln, dln
 		cdl.curLen++
 		return true
@@ -46,7 +51,9 @@ func (cdl *concurrencyDequeL) InsertLast(value interface{}) bool {
 }
 
 func (cdl *concurrencyDequeL) DeleteFront() bool {
-	if cdl.IsEmpty() {
+	cdl.Lock()
+	defer cdl.Unlock()
+	if cdl.isEmpty() {
 		return false
 	}
 
@@ -66,7 +73,9 @@ func (cdl *concurrencyDequeL) DeleteFront() bool {
 }
 
 func (cdl *concurrencyDequeL) DeleteLast() bool {
-	if cdl.IsEmpty() {
+	cdl.Lock()
+	defer cdl.Unlock()
+	if cdl.isEmpty() {
 		return false
 	}
 
@@ -86,6 +95,8 @@ func (cdl *concurrencyDequeL) DeleteLast() bool {
 }
 
 func (cdl *concurrencyDequeL) GetFront() interface{} {
+	cdl.RLock()
+	defer cdl.RUnlock()
 	if cdl.head == nil {
 		return -1
 	}
@@ -93,6 +104,8 @@ func (cdl *concurrencyDequeL) GetFront() interface{} {
 }
 
 func (cdl *concurrencyDequeL) GetRear() interface{} {
+	cdl.RLock()
+	defer cdl.RUnlock()
 	if cdl.tail == nil {
 		return -1
 	}
@@ -100,6 +113,12 @@ func (cdl *concurrencyDequeL) GetRear() interface{} {
 }
 
 func (cdl *concurrencyDequeL) IsEmpty() bool {
+	cdl.RLock()
+	defer cdl.RUnlock()
+	return cdl.isEmpty()
+}
+
+func (cdl *concurrencyDequeL) isEmpty() bool {
 	if cdl.head == nil && cdl.tail == nil {
 		return true
 	}
@@ -107,6 +126,12 @@ func (cdl *concurrencyDequeL) IsEmpty() bool {
 }
 
 func (cdl *concurrencyDequeL) IsFull() bool {
+	cdl.RLock()
+	defer cdl.RUnlock()
+	return cdl.isFull()
+}
+
+func (cdl *concurrencyDequeL) isFull() bool {
 	if cdl.curLen == cdl.maxLen {
 		return true
 	}
@@ -114,10 +139,11 @@ func (cdl *concurrencyDequeL) IsFull() bool {
 }
 
 func (cdl concurrencyDequeL) ToList() IList {
-	if cdl.IsEmpty() {
+	cdl.RLock()
+	defer cdl.RUnlock()
+	if cdl.isEmpty() {
 		return nil
 	}
-
 	res := make([]interface{}, cdl.curLen)
 	cur := cdl.head
 	i := 0

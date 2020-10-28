@@ -1,4 +1,4 @@
-package data_structures
+package containers
 
 type Queue interface {
 	Push(interface{}) bool
@@ -46,4 +46,11 @@ type BinaryTree interface {
 	InorderTraversal() []int64
 	PreorderTraversal() []int64
 	PostorderTraversal() []int64
+}
+
+type RWLocker interface {
+	Lock()
+	Unlock()
+	RLock()
+	RUnlock()
 }

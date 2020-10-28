@@ -1,10 +1,10 @@
-package data_structures
+package containers
 
 import "sync"
 
 type concurrencySet struct {
 	m map[interface{}]int
-	sync.RWMutex
+	RWLocker
 }
 
 // concurrencySet

@@ -1,4 +1,4 @@
-package data_structures
+package containers
 
 type lNode struct {
 	val interface{}

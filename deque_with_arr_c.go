@@ -1,18 +1,21 @@
-package data_structures
+package containers
 
 type concurrencyDequeArr struct {
-	length int
+	maxLen int
 	data   []interface{}
 	head   int
 	rear   int
+	RWLocker
 }
 
 func (cdr *concurrencyDequeArr) InsertFront(value interface{}) bool {
-	if cdr.IsFull() {
+	cdr.Lock()
+	defer cdr.Unlock()
+	if cdr.isFull() {
 		return false
 	}
-	if cdr.IsEmpty() {
-		if cdr.rear == cdr.length-1 {
+	if cdr.isEmpty() {
+		if cdr.rear == cdr.maxLen-1 {
 			cdr.rear = 0
 		} else {
 			cdr.rear++
@@ -22,7 +25,7 @@ func (cdr *concurrencyDequeArr) InsertFront(value interface{}) bool {
 	}
 
 	if cdr.head == 0 {
-		cdr.head = cdr.length - 1
+		cdr.head = cdr.maxLen - 1
 	} else {
 		cdr.head--
 	}
@@ -31,12 +34,14 @@ func (cdr *concurrencyDequeArr) InsertFront(value interface{}) bool {
 }
 
 func (cdr *concurrencyDequeArr) InsertLast(value interface{}) bool {
-	if cdr.IsFull() {
+	cdr.Lock()
+	defer cdr.Unlock()
+	if cdr.isFull() {
 		return false
 	}
-	if cdr.IsEmpty() {
+	if cdr.isEmpty() {
 		cdr.data[cdr.rear] = value
-		if cdr.rear == cdr.length-1 {
+		if cdr.rear == cdr.maxLen-1 {
 			cdr.rear = 0
 		} else {
 			cdr.rear++
@@ -45,7 +50,7 @@ func (cdr *concurrencyDequeArr) InsertLast(value interface{}) bool {
 	}
 
 	cdr.data[cdr.rear] = value
-	if cdr.rear == cdr.length-1 {
+	if cdr.rear == cdr.maxLen-1 {
 		cdr.rear = 0
 	} else {
 		cdr.rear++
@@ -54,10 +59,12 @@ func (cdr *concurrencyDequeArr) InsertLast(value interface{}) bool {
 }
 
 func (cdr *concurrencyDequeArr) DeleteFront() bool {
-	if cdr.IsEmpty() {
+	cdr.Lock()
+	defer cdr.Unlock()
+	if cdr.isEmpty() {
 		return false
 	}
-	if cdr.head == cdr.length-1 {
+	if cdr.head == cdr.maxLen-1 {
 		cdr.head = 0
 	} else {
 		cdr.head++
@@ -66,11 +73,13 @@ func (cdr *concurrencyDequeArr) DeleteFront() bool {
 }
 
 func (cdr *concurrencyDequeArr) DeleteLast() bool {
-	if cdr.IsEmpty() {
+	cdr.Lock()
+	defer cdr.Unlock()
+	if cdr.isEmpty() {
 		return false
 	}
 	if cdr.rear == 0 {
-		cdr.rear = cdr.length - 1
+		cdr.rear = cdr.maxLen - 1
 	} else {
 		cdr.rear--
 	}
@@ -78,7 +87,9 @@ func (cdr *concurrencyDequeArr) DeleteLast() bool {
 }
 
 func (cdr *concurrencyDequeArr) GetFront() interface{} {
-	if cdr.IsEmpty() {
+	cdr.RLock()
+	defer cdr.RUnlock()
+	if cdr.isEmpty() {
 		return -1
 	}
 	return cdr.data[cdr.head]
@@ -86,23 +97,39 @@ func (cdr *concurrencyDequeArr) GetFront() interface{} {
 }
 
 func (cdr *concurrencyDequeArr) GetRear() interface{} {
-	if cdr.IsEmpty() {
+	cdr.RLock()
+	defer cdr.RUnlock()
+	if cdr.isEmpty() {
 		return -1
 	}
 	if cdr.rear == 0 {
-		return cdr.data[cdr.length-1]
+		return cdr.data[cdr.maxLen-1]
 	}
 	return cdr.data[cdr.rear-1]
 }
 
 func (cdr concurrencyDequeArr) IsEmpty() bool {
+	cdr.RLock()
+	defer cdr.RUnlock()
+	return cdr.isEmpty()
+}
+
+func (cdr concurrencyDequeArr) isEmpty() bool {
 	return cdr.head == cdr.rear
 }
 
 func (cdr concurrencyDequeArr) IsFull() bool {
-	return (cdr.rear+1)%cdr.length == cdr.head
+	cdr.RLock()
+	defer cdr.RUnlock()
+	return cdr.isFull()
+}
+
+func (cdr concurrencyDequeArr) isFull() bool {
+	return (cdr.rear+1)%cdr.maxLen == cdr.head
 }
 
 func (cdr concurrencyDequeArr) ToList() IList {
+	cdr.RLock()
+	defer cdr.RUnlock()
 	return cdr.data
 }

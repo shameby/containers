@@ -1,8 +1,8 @@
-package data_structures
+package containers
 
 type binaryTree struct {
-	root *binaryTreeNode
-	len  int
+	root   *binaryTreeNode
+	curLen int
 }
 
 func initTreeNode(i int64) *binaryTreeNode {
@@ -14,11 +14,11 @@ func initTreeNode(i int64) *binaryTreeNode {
 func (bt *binaryTree) Insert(i int64) BinaryTree {
 	if bt.root == nil {
 		bt.root = initTreeNode(i)
-		bt.len++
+		bt.curLen++
 		return bt
 	}
 	bt.root.insert(i)
-	bt.len++
+	bt.curLen++
 	return bt
 }
 
@@ -50,7 +50,7 @@ func (bt *binaryTree) Depth() int {
 }
 
 func (bt *binaryTree) Len() int {
-	return bt.len
+	return bt.curLen
 }
 
 func (bt *binaryTree) InorderTraversal() (res []int64) {
