@@ -48,9 +48,24 @@ type BinaryTree interface {
 	PostorderTraversal() []int64
 }
 
+type PriorityQueue interface {
+	Top() *Elem
+	Push(IElem) bool
+	Pop() *Elem
+	IsEmpty() bool
+	IsFull() bool
+	Len() int
+	GetList() []*Elem
+	Json() string
+}
+
 type RWLocker interface {
 	Lock()
 	Unlock()
 	RLock()
 	RUnlock()
+}
+
+type IElem interface {
+	KV() (string, int64)
 }

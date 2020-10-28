@@ -5,12 +5,6 @@ type binaryTree struct {
 	curLen int
 }
 
-func initTreeNode(i int64) *binaryTreeNode {
-	return &binaryTreeNode{
-		i, 1, nil, nil,
-	}
-}
-
 func (bt *binaryTree) Insert(i int64) BinaryTree {
 	if bt.root == nil {
 		bt.root = initTreeNode(i)

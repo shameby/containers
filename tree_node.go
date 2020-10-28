@@ -7,6 +7,12 @@ type binaryTreeNode struct {
 	right *binaryTreeNode
 }
 
+func initTreeNode(i int64) *binaryTreeNode {
+	return &binaryTreeNode{
+		i, 1, nil, nil,
+	}
+}
+
 func (ntn *binaryTreeNode) insert(i int64) {
 	switch {
 	case i < ntn.val:

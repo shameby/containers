@@ -1,7 +1,5 @@
 package containers
 
-import "sync"
-
 type concurrencyStack struct {
 	l      []interface{}
 	topPtr int

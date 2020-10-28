@@ -54,15 +54,15 @@ func NewDequeArr(k int, locker RWLocker) Deque {
 }
 
 // 底层为链表的双端队列
-func NewDequeL(k int, locker RWLocker) Deque {
+func NewDequeL(maxLen int, locker RWLocker) Deque {
 	if locker != nil {
 		return &concurrencyDequeL{
-			curLen: 0, maxLen: k, RWLocker: locker,
+			curLen: 0, maxLen: maxLen, RWLocker: locker,
 		}
 	}
 	return &dequeL{
 		curLen: 0,
-		maxLen: k,
+		maxLen: maxLen,
 	}
 }
 
@@ -72,4 +72,12 @@ func NewBinaryTree(locker RWLocker) BinaryTree {
 		return &concurrencyBinaryTree{RWLocker: locker}
 	}
 	return &binaryTree{}
+}
+
+// 底层为二叉堆的优先数列
+func NewPriorityQueue(maxLen int, locker RWLocker) PriorityQueue {
+	if locker != nil {
+		return &concurrencyPriorityQueue{RWLocker: locker}
+	}
+	return &normalPriorityQueue{maxLen: maxLen}
 }
