@@ -14,6 +14,7 @@ import ds "github.com/shameby/containers"
 - DequeArr 底层为数组的双端队列
 - DequeList 底层为链表的双端队列
 - BinaryTree 二叉树
+- PriorityQueue 底层为堆的优先队列
 
 ### Set
 初始化
