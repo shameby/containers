@@ -1,6 +1,8 @@
 package containers
 
-import "encoding/json"
+import (
+	"encoding/json"
+)
 
 type normalPriorityQueue struct {
 	l      []*Elem
