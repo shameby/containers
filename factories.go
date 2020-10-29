@@ -2,82 +2,77 @@ package containers
 
 // 队列
 func NewQueue(len int, locker RWLocker) Queue {
+	q := &queue{maxLen: len}
 	if locker != nil {
-		return &concurrencyQueue{maxLen: len, RWLocker: locker}
+		return &concurrencyQueue{n: q, RWLocker: locker}
 	}
-	return &queue{maxLen: len}
+	return q
 }
 
 // 集合
 func NewSet(locker RWLocker) Set {
+	s := &set{m: make(map[interface{}]int)}
 	if locker != nil {
 		return &concurrencySet{
-			m:        make(map[interface{}]int),
+			n:        s,
 			RWLocker: locker,
 		}
 	}
-	return &set{
-		m: make(map[interface{}]int),
-	}
+	return s
 }
 
 // 栈
 func NewStack(length int, locker RWLocker) Stack {
-	if locker != nil {
-		return &concurrencyStack{
-			l:        make([]interface{}, length+1),
-			topPtr:   0,
-			maxLen:   length,
-			RWLocker: locker,
-		}
-	}
-	return &stack{
-		l:      make([]interface{}, length+1),
+	s := &stack{l: make([]interface{}, length+1),
 		topPtr: 0,
 		maxLen: length,
 	}
+	if locker != nil {
+		return &concurrencyStack{
+			n:        s,
+			RWLocker: locker,
+		}
+	}
+	return s
 }
 
 // 底层为数组的双端队列
 func NewDequeArr(k int, locker RWLocker) Deque {
-	if locker != nil {
-		return &concurrencyDequeArr{
-			maxLen:   k + 1,
-			data:     make([]interface{}, k+1),
-			RWLocker: locker,
-		}
-	}
-	return &dequeArr{
+	d := &dequeArr{
 		maxLen: k + 1,
 		data:   make([]interface{}, k+1), //空一个位置区分满和空
 	}
+	if locker != nil {
+		return &concurrencyDequeArr{n: d, RWLocker: locker,}
+	}
+	return d
 }
 
 // 底层为链表的双端队列
 func NewDequeL(maxLen int, locker RWLocker) Deque {
+	d := &dequeL{curLen: 0, maxLen: maxLen}
 	if locker != nil {
 		return &concurrencyDequeL{
-			curLen: 0, maxLen: maxLen, RWLocker: locker,
+			n: d, RWLocker: locker,
 		}
 	}
-	return &dequeL{
-		curLen: 0,
-		maxLen: maxLen,
-	}
+	return d
 }
 
 // 二叉树
 func NewBinaryTree(locker RWLocker) BinaryTree {
+	b := &binaryTree{}
 	if locker != nil {
-		return &concurrencyBinaryTree{RWLocker: locker}
+		return &concurrencyBinaryTree{n: b, RWLocker: locker}
 	}
-	return &binaryTree{}
+	return b
 }
 
 // 底层为二叉堆的优先数列
 func NewPriorityQueue(maxLen int, t HeapType, locker RWLocker) PriorityQueue {
+	p := &normalPriorityQueue{t: t, maxLen: maxLen}
 	if locker != nil {
-		return &concurrencyPriorityQueue{n: &normalPriorityQueue{t: t, maxLen: maxLen}, RWLocker: locker}
+		return &concurrencyPriorityQueue{n: p, RWLocker: locker}
 	}
-	return &normalPriorityQueue{t: t, maxLen: maxLen}
+	return p
 }

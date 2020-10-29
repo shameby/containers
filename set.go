@@ -7,7 +7,6 @@ type set struct {
 // normalSet
 func (s *set) Add(i interface{}) bool {
 	s.m[i] = 0
-
 	return true
 }
 
@@ -15,7 +14,6 @@ func (s *set) Adds(is ...interface{}) bool {
 	for _, i := range is {
 		s.m[i] = 0
 	}
-
 	return true
 }
 
@@ -24,7 +22,6 @@ func (s *set) Delete(i interface{}) bool {
 		return false
 	}
 	delete(s.m, i)
-
 	return true
 }
 
@@ -32,7 +29,6 @@ func (s set) IsExist(i interface{}) bool {
 	if _, exist := s.m[i]; !exist {
 		return false
 	}
-
 	return true
 }
 
@@ -41,6 +37,5 @@ func (s set) ToList() IList {
 	for k := range s.m {
 		l = append(l, k)
 	}
-
 	return IList(l)
 }

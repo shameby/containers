@@ -8,7 +8,7 @@ type queue struct {
 }
 
 func (q *queue) Push(i interface{}) bool {
-	if q.isFull() {
+	if q.IsFull() {
 		return false
 	}
 	if i == nil {
@@ -27,7 +27,7 @@ func (q *queue) Push(i interface{}) bool {
 }
 
 func (q *queue) Pop() interface{} {
-	if q.isEmpty() {
+	if q.IsEmpty() {
 		return nil
 	}
 	node := q.head
@@ -41,10 +41,6 @@ func (q queue) Len() int {
 }
 
 func (q queue) IsFull() bool {
-	return q.isFull()
-}
-
-func (q queue) isFull() bool {
 	if q.maxLen != -1 && q.maxLen == q.curLen {
 		return true
 	}
@@ -52,10 +48,6 @@ func (q queue) isFull() bool {
 }
 
 func (q queue) IsEmpty() bool {
-	return q.isEmpty()
-}
-
-func (q queue) isEmpty() bool {
 	if q.curLen == 0 {
 		return true
 	}

@@ -8,13 +8,13 @@ type dequeL struct {
 }
 
 func (dq *dequeL) InsertFront(value interface{}) bool {
-	if dq.isFull() {
+	if dq.IsFull() {
 		return false
 	}
 	dln := &duLNode{
 		val: value,
 	}
-	if dq.isEmpty() {
+	if dq.IsEmpty() {
 		dq.head, dq.tail = dln, dln
 		dq.curLen++
 		return true
@@ -27,13 +27,13 @@ func (dq *dequeL) InsertFront(value interface{}) bool {
 }
 
 func (dq *dequeL) InsertLast(value interface{}) bool {
-	if dq.isFull() {
+	if dq.IsFull() {
 		return false
 	}
 	dln := &duLNode{
 		val: value,
 	}
-	if dq.isEmpty() {
+	if dq.IsEmpty() {
 		dq.head, dq.tail = dln, dln
 		dq.curLen++
 		return true
@@ -46,42 +46,36 @@ func (dq *dequeL) InsertLast(value interface{}) bool {
 }
 
 func (dq *dequeL) DeleteFront() bool {
-	if dq.isEmpty() {
+	if dq.IsEmpty() {
 		return false
 	}
-
 	if dq.head.nex == nil {
 		dq.head, dq.tail = nil, nil
 		dq.curLen--
 		return true
 	}
-
 	lastHead := dq.head
 	dq.head = lastHead.nex
 	lastHead.nex = nil
 	dq.head.pre = nil
 	dq.curLen--
-
 	return true
 }
 
 func (dq *dequeL) DeleteLast() bool {
-	if dq.isEmpty() {
+	if dq.IsEmpty() {
 		return false
 	}
-
 	if dq.tail.pre == nil {
 		dq.head, dq.tail = nil, nil
 		dq.curLen--
 		return true
 	}
-
 	lastTail := dq.tail
 	dq.tail = lastTail.pre
 	lastTail.pre = nil
 	dq.tail.nex = nil
 	dq.curLen--
-
 	return true
 }
 
@@ -100,10 +94,6 @@ func (dq *dequeL) GetRear() interface{} {
 }
 
 func (dq *dequeL) IsEmpty() bool {
-	return dq.isEmpty()
-}
-
-func (dq *dequeL) isEmpty() bool {
 	if dq.head == nil && dq.tail == nil {
 		return true
 	}
@@ -111,10 +101,6 @@ func (dq *dequeL) isEmpty() bool {
 }
 
 func (dq *dequeL) IsFull() bool {
-	return dq.isFull()
-}
-
-func (dq *dequeL) isFull() bool {
 	if dq.curLen == dq.maxLen {
 		return true
 	}
@@ -122,10 +108,9 @@ func (dq *dequeL) isFull() bool {
 }
 
 func (dq dequeL) ToList() IList {
-	if dq.isEmpty() {
+	if dq.IsEmpty() {
 		return nil
 	}
-
 	res := make([]interface{}, dq.curLen)
 	cur := dq.head
 	i := 0
@@ -134,6 +119,5 @@ func (dq dequeL) ToList() IList {
 		cur = cur.nex
 		i++
 	}
-
 	return res
 }

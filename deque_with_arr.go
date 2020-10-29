@@ -8,10 +8,10 @@ type dequeArr struct {
 }
 
 func (dqr *dequeArr) InsertFront(value interface{}) bool {
-	if dqr.isFull() {
+	if dqr.IsFull() {
 		return false
 	}
-	if dqr.isEmpty() {
+	if dqr.IsEmpty() {
 		if dqr.rear == dqr.maxLen-1 {
 			dqr.rear = 0
 		} else {
@@ -31,10 +31,10 @@ func (dqr *dequeArr) InsertFront(value interface{}) bool {
 }
 
 func (dqr *dequeArr) InsertLast(value interface{}) bool {
-	if dqr.isFull() {
+	if dqr.IsFull() {
 		return false
 	}
-	if dqr.isEmpty() {
+	if dqr.IsEmpty() {
 		dqr.data[dqr.rear] = value
 		if dqr.rear == dqr.maxLen-1 {
 			dqr.rear = 0
@@ -54,7 +54,7 @@ func (dqr *dequeArr) InsertLast(value interface{}) bool {
 }
 
 func (dqr *dequeArr) DeleteFront() bool {
-	if dqr.isEmpty() {
+	if dqr.IsEmpty() {
 		return false
 	}
 	if dqr.head == dqr.maxLen-1 {
@@ -66,7 +66,7 @@ func (dqr *dequeArr) DeleteFront() bool {
 }
 
 func (dqr *dequeArr) DeleteLast() bool {
-	if dqr.isEmpty() {
+	if dqr.IsEmpty() {
 		return false
 	}
 	if dqr.rear == 0 {
@@ -78,7 +78,7 @@ func (dqr *dequeArr) DeleteLast() bool {
 }
 
 func (dqr *dequeArr) GetFront() interface{} {
-	if dqr.isEmpty() {
+	if dqr.IsEmpty() {
 		return -1
 	}
 	return dqr.data[dqr.head]
@@ -86,7 +86,7 @@ func (dqr *dequeArr) GetFront() interface{} {
 }
 
 func (dqr *dequeArr) GetRear() interface{} {
-	if dqr.isEmpty() {
+	if dqr.IsEmpty() {
 		return -1
 	}
 	if dqr.rear == 0 {
@@ -96,18 +96,10 @@ func (dqr *dequeArr) GetRear() interface{} {
 }
 
 func (dqr dequeArr) IsEmpty() bool {
-	return dqr.isEmpty()
-}
-
-func (dqr dequeArr) isEmpty() bool {
 	return dqr.head == dqr.rear
 }
 
 func (dqr dequeArr) IsFull() bool {
-	return dqr.isFull()
-}
-
-func (dqr dequeArr) isFull() bool {
 	return (dqr.rear+1)%dqr.maxLen == dqr.head
 }
 
