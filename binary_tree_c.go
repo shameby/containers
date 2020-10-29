@@ -5,19 +5,13 @@ type concurrencyBinaryTree struct {
 	RWLocker
 }
 
-func (cbt *concurrencyBinaryTree) Insert(i int64) BinaryTree {
+func (cbt *concurrencyBinaryTree) Insert(elem IElem) BinaryTree {
 	cbt.Lock()
 	defer cbt.Unlock()
-	return cbt.n.Insert(i)
+	return cbt.n.Insert(elem)
 }
 
-func (cbt *concurrencyBinaryTree) Inserts(l []int64) BinaryTree {
-	cbt.Lock()
-	defer cbt.Unlock()
-	return cbt.n.Inserts(l)
-}
-
-func (cbt *concurrencyBinaryTree) Search(i int64) int {
+func (cbt *concurrencyBinaryTree) Search(i int64) *Elem {
 	cbt.RLock()
 	defer cbt.RUnlock()
 	return cbt.n.Search(i)
@@ -35,19 +29,19 @@ func (cbt *concurrencyBinaryTree) Len() int {
 	return cbt.n.Len()
 }
 
-func (cbt *concurrencyBinaryTree) InorderTraversal() (res []int64) {
+func (cbt *concurrencyBinaryTree) InorderTraversal() (res []Elem) {
 	cbt.RLock()
 	defer cbt.RUnlock()
 	return cbt.n.InorderTraversal()
 }
 
-func (cbt *concurrencyBinaryTree) PreorderTraversal() (res []int64) {
+func (cbt *concurrencyBinaryTree) PreorderTraversal() (res []Elem) {
 	cbt.RLock()
 	defer cbt.RUnlock()
 	return cbt.n.PreorderTraversal()
 }
 
-func (cbt *concurrencyBinaryTree) PostorderTraversal() (res []int64) {
+func (cbt *concurrencyBinaryTree) PostorderTraversal() (res []Elem) {
 	cbt.RLock()
 	defer cbt.RUnlock()
 	return cbt.n.PostorderTraversal()

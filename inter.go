@@ -37,15 +37,14 @@ type Deque interface {
 }
 
 type BinaryTree interface {
-	Insert(int64) BinaryTree
-	Inserts(l []int64) BinaryTree
-	Search(int64) int
+	Insert(IElem) BinaryTree
+	Search(int64) *Elem
 	Delete(int64) int
 	Depth() int
 	Len() int
-	InorderTraversal() []int64
-	PreorderTraversal() []int64
-	PostorderTraversal() []int64
+	InorderTraversal() []Elem
+	PreorderTraversal() []Elem
+	PostorderTraversal() []Elem
 }
 
 type PriorityQueue interface {

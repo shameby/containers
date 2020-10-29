@@ -3,35 +3,27 @@ package containers
 type binaryTree struct {
 	root   *binaryTreeNode
 	curLen int
+	preL   []Elem
+	inL    []Elem
+	postL  []Elem
 }
 
-func (bt *binaryTree) Insert(i int64) BinaryTree {
+func (bt *binaryTree) Insert(elem IElem) BinaryTree {
+	bt.initL()
+	e := initE(elem)
 	if bt.root == nil {
-		bt.root = initTreeNode(i)
+		bt.root = initTreeNode(e)
 		bt.curLen++
 		return bt
 	}
-	bt.root.insert(i)
+	bt.root.insert(e)
 	bt.curLen++
 	return bt
 }
 
-func (bt *binaryTree) Inserts(l []int64) BinaryTree {
-	if len(l) == 0 {
-		return bt
-	}
+func (bt *binaryTree) Search(i int64) *Elem {
 	if bt.root == nil {
-		bt.root = initTreeNode(l[0])
-	}
-	for i := 1; i < len(l); i++ {
-		bt.root.insert(l[i])
-	}
-	return bt
-}
-
-func (bt *binaryTree) Search(i int64) int {
-	if bt.root == nil {
-		return 0
+		return nil
 	}
 	return bt.root.search(i)
 }
@@ -47,40 +39,50 @@ func (bt *binaryTree) Len() int {
 	return bt.curLen
 }
 
-func (bt *binaryTree) InorderTraversal() (res []int64) {
+func (bt *binaryTree) InorderTraversal() (res []Elem) {
 	if bt.root == nil {
 		return nil
 	}
-	bt.root.inorder(&res)
-	return res
+	if bt.inL == nil {
+		bt.inL = make([]Elem, 0)
+		bt.root.inorder(&bt.inL)
+	}
+	return bt.inL
 }
 
-func (bt *binaryTree) PreorderTraversal() (res []int64) {
+func (bt *binaryTree) PreorderTraversal() (res []Elem) {
 	if bt.root == nil {
 		return nil
 	}
-	bt.root.preorder(&res)
-	return res
+	if bt.preL == nil {
+		bt.preL = make([]Elem, 0)
+		bt.root.preorder(&bt.preL)
+	}
+	return bt.preL
 }
 
-func (bt *binaryTree) PostorderTraversal() (res []int64) {
+func (bt *binaryTree) PostorderTraversal() []Elem {
 	if bt.root == nil {
 		return nil
 	}
-	bt.root.postorder(&res)
-	return res
+	if bt.postL == nil {
+		bt.postL = make([]Elem, 0)
+		bt.root.postorder(&bt.postL)
+	}
+	return bt.postL
 }
 
 func (bt *binaryTree) Delete(i int64) int {
 	if bt.root == nil {
 		return 0
 	}
+	bt.initL()
 	parent, cur := bt.root, bt.root
 	isLeft := true
 	for {
-		if i < cur.val {
+		if i < cur.val.Score {
 			if cur.left != nil {
-				if cur.left.val == i {
+				if cur.left.val.Score == i {
 					parent = cur
 					cur = cur.left
 					break
@@ -88,9 +90,9 @@ func (bt *binaryTree) Delete(i int64) int {
 				cur = cur.left
 				continue
 			}
-		} else if i > cur.val {
+		} else if i > cur.val.Score {
 			if cur.right != nil {
-				if cur.right.val == i {
+				if cur.right.val.Score == i {
 					parent = cur
 					cur = cur.right
 					isLeft = false
@@ -144,5 +146,9 @@ func (bt *binaryTree) Delete(i int64) int {
 		}
 		suc.left = cur.left
 	}
-	return cur.count
+	return 1
+}
+
+func (bt *binaryTree) initL() {
+	bt.preL, bt.inL, bt.postL = nil, nil, nil
 }

@@ -1,51 +1,48 @@
 package containers
 
 type binaryTreeNode struct {
-	val   int64
-	count int
+	val   *Elem
 	left  *binaryTreeNode
 	right *binaryTreeNode
 }
 
-func initTreeNode(i int64) *binaryTreeNode {
+func initTreeNode(elem *Elem) *binaryTreeNode {
 	return &binaryTreeNode{
-		i, 1, nil, nil,
+		elem, nil, nil,
 	}
 }
 
-func (ntn *binaryTreeNode) insert(i int64) {
+func (ntn *binaryTreeNode) insert(elem *Elem) {
 	switch {
-	case i < ntn.val:
+	case elem.Score < ntn.val.Score:
 		if ntn.left == nil {
-			ntn.left = initTreeNode(i)
+			ntn.left = initTreeNode(elem)
 			return
 		}
-		ntn.left.insert(i)
-	case i > ntn.val:
+		ntn.left.insert(elem)
+	case elem.Score >= ntn.val.Score:
 		if ntn.right == nil {
-			ntn.right = initTreeNode(i)
+			ntn.right = initTreeNode(elem)
 			return
 		}
-		ntn.right.insert(i)
-	default:
-		ntn.count++
+		ntn.right.insert(elem)
 	}
 }
 
-func (ntn *binaryTreeNode) search(i int64) int {
+func (ntn *binaryTreeNode) search(i int64) *Elem {
 	switch {
-	case i < ntn.val:
+	case i < ntn.val.Score:
 		if ntn.left != nil {
 			return ntn.left.search(i)
 		}
-	case i > ntn.val:
+	case i > ntn.val.Score:
 		if ntn.right != nil {
 			return ntn.right.search(i)
 		}
 	default:
-		return ntn.count
+		return ntn.val
 	}
-	return 0
+	return nil
 }
 
 func (ntn *binaryTreeNode) depth() int {
@@ -55,33 +52,27 @@ func (ntn *binaryTreeNode) depth() int {
 	return 0
 }
 
-func (ntn *binaryTreeNode) inorder(res *[]int64) {
+func (ntn *binaryTreeNode) inorder(res *[]Elem) {
 	if ntn != nil {
 		ntn.left.inorder(res)
-		for i := 1; i <= ntn.count; i++ {
-			*res = append(*res, ntn.val)
-		}
+		*res = append(*res, *ntn.val)
 		ntn.right.inorder(res)
 	}
 }
 
-func (ntn *binaryTreeNode) preorder(res *[]int64) {
+func (ntn *binaryTreeNode) preorder(res *[]Elem) {
 	if ntn != nil {
-		for i := 1; i <= ntn.count; i++ {
-			*res = append(*res, ntn.val)
-		}
+		*res = append(*res, *ntn.val)
 		ntn.left.preorder(res)
 		ntn.right.preorder(res)
 	}
 }
 
-func (ntn *binaryTreeNode) postorder(res *[]int64) {
+func (ntn *binaryTreeNode) postorder(res *[]Elem) {
 	if ntn != nil {
 		ntn.left.postorder(res)
 		ntn.right.postorder(res)
-		for i := 1; i <= ntn.count; i++ {
-			*res = append(*res, ntn.val)
-		}
+		*res = append(*res, *ntn.val)
 	}
 }
 
