@@ -4,10 +4,12 @@ import (
 	"fmt"
 
 	c "../../containers"
+	"sync"
+	"time"
 )
 
 type Stu struct {
-	Name string
+	Name  string
 	Grade string
 	Score int64
 }
@@ -26,11 +28,15 @@ func main() {
 		{"randy", "grade2", 100},
 		{"kya", "grade2", 99},
 	}
-	pq := c.NewPriorityQueue(50, nil)
+	pq := c.NewPriorityQueue(50, c.MaxRootHeap, new(sync.RWMutex))
 	for _, stu := range students {
-		pq.Push(stu)
-		fmt.Println(pq.Json())
+		go func() {
+			pq.Push(stu)
+			fmt.Println(pq.Json())
+		}()
 	}
+	time.Sleep(500 * time.Millisecond)
+	fmt.Println("-----------------------")
 	pq.Pop()
 	fmt.Println(pq.Json())
 	pq.Pop()

@@ -4,8 +4,18 @@ import (
 	"encoding/json"
 )
 
+const (
+	// 小根堆
+	MinRootHeap HeapType = 1 + iota
+	// 大根堆
+	MaxRootHeap
+)
+
+type HeapType uint8
+
 type normalPriorityQueue struct {
 	l      []*Elem
+	t      HeapType
 	maxLen int
 }
 
@@ -42,7 +52,10 @@ func (npq *normalPriorityQueue) up(start int) {
 	cur := start
 	par := (cur - 1) / 2
 	for cur > 0 {
-		if tmp.Score <= npq.l[par].Score {
+		if npq.t == MaxRootHeap && tmp.Score <= npq.l[par].Score {
+			break
+		}
+		if npq.t == MinRootHeap && tmp.Score >= npq.l[par].Score {
 			break
 		}
 		npq.l[cur] = npq.l[par]
@@ -57,10 +70,18 @@ func (npq *normalPriorityQueue) down(start int) {
 	cur := start
 	child := 2*cur + 1
 	for child < npq.len() {
-		if child < npq.len()-1 && npq.l[child].Score < npq.l[child+1].Score {
-			child++
+		if child < npq.len()-1 {
+			if npq.t == MaxRootHeap && npq.l[child].Score < npq.l[child+1].Score {
+				child++
+			}
+			if npq.t == MinRootHeap && npq.l[child].Score > npq.l[child+1].Score {
+				child++
+			}
 		}
-		if tmp.Score > npq.l[child].Score {
+		if npq.t == MaxRootHeap && tmp.Score >= npq.l[child].Score {
+			break
+		}
+		if npq.t == MinRootHeap && tmp.Score <= npq.l[child].Score {
 			break
 		}
 		npq.l[cur] = npq.l[child]

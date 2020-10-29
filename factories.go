@@ -75,9 +75,9 @@ func NewBinaryTree(locker RWLocker) BinaryTree {
 }
 
 // 底层为二叉堆的优先数列
-func NewPriorityQueue(maxLen int, locker RWLocker) PriorityQueue {
+func NewPriorityQueue(maxLen int, t HeapType, locker RWLocker) PriorityQueue {
 	if locker != nil {
-		return &concurrencyPriorityQueue{RWLocker: locker}
+		return &concurrencyPriorityQueue{n: &normalPriorityQueue{t: t, maxLen: maxLen}, RWLocker: locker}
 	}
-	return &normalPriorityQueue{maxLen: maxLen}
+	return &normalPriorityQueue{t: t, maxLen: maxLen}
 }
