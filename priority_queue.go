@@ -20,14 +20,14 @@ type normalPriorityQueue struct {
 }
 
 func (npq normalPriorityQueue) Top() *Elem {
-	if npq.isEmpty() {
+	if npq.IsEmpty() {
 		return nil
 	}
 	return npq.l[0]
 }
 
 func (npq *normalPriorityQueue) Push(ie IElem) bool {
-	if npq.isFull() {
+	if npq.IsFull() {
 		return false
 	}
 	e := initE(ie)
@@ -37,12 +37,12 @@ func (npq *normalPriorityQueue) Push(ie IElem) bool {
 }
 
 func (npq *normalPriorityQueue) Pop() *Elem {
-	if npq.isEmpty() {
+	if npq.IsEmpty() {
 		return nil
 	}
 	e := npq.Top()
-	npq.l[0] = npq.l[npq.len()-1]
-	npq.l = npq.l[:npq.len()-1]
+	npq.l[0] = npq.l[npq.Len()-1]
+	npq.l = npq.l[:npq.Len()-1]
 	npq.down(0)
 	return e
 }
@@ -69,8 +69,8 @@ func (npq *normalPriorityQueue) down(start int) {
 	tmp := npq.l[start]
 	cur := start
 	child := 2*cur + 1
-	for child < npq.len() {
-		if child < npq.len()-1 {
+	for child < npq.Len() {
+		if child < npq.Len()-1 {
 			if npq.t == MaxRootHeap && npq.l[child].Score < npq.l[child+1].Score {
 				child++
 			}
@@ -96,18 +96,17 @@ func (npq *normalPriorityQueue) GetList() []*Elem {
 }
 
 func (npq normalPriorityQueue) IsEmpty() bool {
-	return npq.isEmpty()
-}
-
-func (npq normalPriorityQueue) isEmpty() bool {
-	if npq.len() == 0 {
+	if npq.Len() == 0 {
 		return true
 	}
 	return false
 }
 
 func (npq normalPriorityQueue) IsFull() bool {
-	return npq.isFull()
+	if npq.maxLen != -1 && npq.Len() == npq.maxLen {
+		return true
+	}
+	return false
 }
 
 func (npq normalPriorityQueue) Json() string {
@@ -115,17 +114,6 @@ func (npq normalPriorityQueue) Json() string {
 	return string(str)
 }
 
-func (npq normalPriorityQueue) isFull() bool {
-	if npq.maxLen != -1 && npq.len() == npq.maxLen {
-		return true
-	}
-	return false
-}
-
 func (npq normalPriorityQueue) Len() int {
-	return npq.len()
-}
-
-func (npq normalPriorityQueue) len() int {
 	return len(npq.l)
 }

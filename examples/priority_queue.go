@@ -19,7 +19,7 @@ func (s Stu) KV() (string, int64) {
 }
 
 func main() {
-	students := []*Stu{
+	students := []Stu{
 		{"tom", "grade1", 53},
 		{"peter", "grade2", 80},
 		{"jack", "grade1", 91},
@@ -30,12 +30,10 @@ func main() {
 	}
 	pq := c.NewPriorityQueue(50, c.MaxRootHeap, new(sync.RWMutex))
 	for _, stu := range students {
-		go func() {
-			pq.Push(stu)
-			fmt.Println(pq.Json())
-		}()
+		go pq.Push(stu)
 	}
 	time.Sleep(500 * time.Millisecond)
+	fmt.Println(pq.Json())
 	fmt.Println("-----------------------")
 	pq.Pop()
 	fmt.Println(pq.Json())
