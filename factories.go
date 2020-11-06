@@ -1,5 +1,9 @@
 package containers
 
+import (
+	"unsafe"
+)
+
 // 队列
 func NewQueue(len int, locker RWLocker) Queue {
 	q := &queue{maxLen: len}
@@ -7,6 +11,12 @@ func NewQueue(len int, locker RWLocker) Queue {
 		return &concurrencyQueue{n: q, RWLocker: locker}
 	}
 	return q
+}
+
+// lockFree 队列
+func NewLockFreeQueue(maxLen int32) Queue {
+	n := unsafe.Pointer(&node{})
+	return &queueLF{head: n, tail: n, maxLen: maxLen}
 }
 
 // 集合

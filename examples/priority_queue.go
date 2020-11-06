@@ -14,7 +14,7 @@ type Stu struct {
 }
 
 func (s Stu) KV() (string, int64) {
-	return s.Grade + ":" + s.Name, s.Score
+	return s.Grade + "|" + s.Name, s.Score
 }
 
 func main() {
@@ -39,10 +39,12 @@ func main() {
 	wg.Wait()
 	fmt.Println(pq.Json())
 	fmt.Println("-----------------------")
-	pq.Pop()
-	fmt.Println(pq.Json())
-	pq.Pop()
-	fmt.Println(pq.Json())
-	pq.Pop()
-	fmt.Println(pq.Json())
+	getTop3(pq)
+}
+
+func getTop3(pq c.PriorityQueue) {
+	top1:=pq.Pop()
+	top2:=pq.Pop()
+	top3:=pq.Pop()
+	fmt.Printf("top1: %v \ntop2: %v \ntop3: %v", *top1, *top2, *top3)
 }
