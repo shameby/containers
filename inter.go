@@ -38,8 +38,8 @@ type Deque interface {
 
 type BinaryTree interface {
 	Insert(IElem) BinaryTree
-	Search(int64) *Elem
-	Delete(int64) int
+	Search(float64) *Elem
+	Delete(float64) int
 	Depth() int
 	Len() int
 	InorderTraversal() []Elem
@@ -58,6 +58,14 @@ type PriorityQueue interface {
 	Json() string
 }
 
+type SkipList interface {
+	Get(float64) *SkElem
+	Set(IElem) bool
+	Delete(float64) *SkElem
+	Len() int
+	SetProbability(float64)
+}
+
 type RWLocker interface {
 	Lock()
 	Unlock()
@@ -66,5 +74,5 @@ type RWLocker interface {
 }
 
 type IElem interface {
-	KV() (string, int64)
+	KV() (string, float64)
 }

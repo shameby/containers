@@ -21,7 +21,7 @@ func (bt *binaryTree) Insert(elem IElem) BinaryTree {
 	return bt
 }
 
-func (bt *binaryTree) Search(i int64) *Elem {
+func (bt *binaryTree) Search(i float64) *Elem {
 	if bt.root == nil {
 		return nil
 	}
@@ -72,7 +72,7 @@ func (bt *binaryTree) PostorderTraversal() []Elem {
 	return bt.postL
 }
 
-func (bt *binaryTree) Delete(i int64) int {
+func (bt *binaryTree) Delete(i float64) int {
 	if bt.root == nil {
 		return 0
 	}

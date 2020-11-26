@@ -29,7 +29,7 @@ func (ntn *binaryTreeNode) insert(elem *Elem) {
 	}
 }
 
-func (ntn *binaryTreeNode) search(i int64) *Elem {
+func (ntn *binaryTreeNode) search(i float64) *Elem {
 	switch {
 	case i < ntn.val.Score:
 		if ntn.left != nil {

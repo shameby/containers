@@ -1,7 +1,9 @@
 package containers
 
 import (
+	"time"
 	"unsafe"
+	"math/rand"
 )
 
 // 队列
@@ -85,4 +87,25 @@ func NewPriorityQueue(maxLen int, t HeapType, locker RWLocker) PriorityQueue {
 		return &concurrencyPriorityQueue{n: p, RWLocker: locker}
 	}
 	return p
+}
+
+func NewSkipList(maxLevel int, locker RWLocker) SkipList {
+	if maxLevel > 64 || maxLevel < 1 {
+		return nil
+	}
+	s := &normalSkipList{
+		elementNode:   elementNode{next: make([]*SkElem, maxLevel)},
+		maxLevel:      maxLevel,
+		preNodesCache: make([]*elementNode, maxLevel),
+		randSource:    rand.New(rand.NewSource(time.Now().UnixNano())),
+		probability:   DefaultProbability,
+		proTable:      probabilityTable(DefaultProbability, maxLevel),
+	}
+	if locker != nil {
+		return &concurrencySkipList{
+			n:        s,
+			RWLocker: locker,
+		}
+	}
+	return s
 }

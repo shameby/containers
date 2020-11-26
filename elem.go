@@ -1,8 +1,9 @@
 package containers
 
+// normal elem
 type Elem struct {
-	Key   string `json:"key"`
-	Score int64  `json:"score"`
+	Key   string  `json:"key"`
+	Score float64 `json:"score"`
 }
 
 func initE(ie IElem) *Elem {
@@ -10,10 +11,22 @@ func initE(ie IElem) *Elem {
 	return &Elem{k, v}
 }
 
-func batchInitE(iL []IElem) []*Elem {
-	el := make([]*Elem, len(iL))
-	for index, ie := range iL {
-		el[index] = initE(ie)
-	}
-	return el
+// elem just for skipList
+type SkElem struct {
+	Key   string  `json:"key"`
+	Score float64 `json:"score"`
+	elementNode
+}
+
+type elementNode struct {
+	next []*SkElem
+}
+
+func (se SkElem) Next() *SkElem {
+	return se.next[0]
+}
+
+func initSKE(ie IElem, next []*SkElem) *SkElem {
+	k, v := ie.KV()
+	return &SkElem{k, v, elementNode{next}}
 }

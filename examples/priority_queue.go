@@ -10,10 +10,10 @@ import (
 type Stu struct {
 	Name  string
 	Grade string
-	Score int64
+	Score float64
 }
 
-func (s Stu) KV() (string, int64) {
+func (s Stu) KV() (string, float64) {
 	return s.Grade + "|" + s.Name, s.Score
 }
 

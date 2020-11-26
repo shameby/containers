@@ -11,7 +11,7 @@ func (cbt *concurrencyBinaryTree) Insert(elem IElem) BinaryTree {
 	return cbt.n.Insert(elem)
 }
 
-func (cbt *concurrencyBinaryTree) Search(i int64) *Elem {
+func (cbt *concurrencyBinaryTree) Search(i float64) *Elem {
 	cbt.RLock()
 	defer cbt.RUnlock()
 	return cbt.n.Search(i)
@@ -47,7 +47,7 @@ func (cbt *concurrencyBinaryTree) PostorderTraversal() (res []Elem) {
 	return cbt.n.PostorderTraversal()
 }
 
-func (cbt *concurrencyBinaryTree) Delete(i int64) int {
+func (cbt *concurrencyBinaryTree) Delete(i float64) int {
 	cbt.Lock()
 	defer cbt.Unlock()
 	return cbt.n.Delete(i)
