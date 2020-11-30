@@ -90,7 +90,7 @@ func NewPriorityQueue(maxLen int, t HeapType, locker RWLocker) PriorityQueue {
 }
 
 func NewSkipList(maxLevel int, locker RWLocker) SkipList {
-	if maxLevel > 64 || maxLevel < 1 {
+	if maxLevel > 25 || maxLevel < 1 {
 		return nil
 	}
 	s := &normalSkipList{
@@ -108,4 +108,15 @@ func NewSkipList(maxLevel int, locker RWLocker) SkipList {
 		}
 	}
 	return s
+}
+
+func NewTrie(locker RWLocker) Trie {
+	n := &normalTrie{&trie{}, 0}
+	if locker != nil {
+		return &concurrencyTrie{
+			n: n,
+			RWLocker: locker,
+		}
+	}
+	return n
 }

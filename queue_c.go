@@ -17,19 +17,19 @@ func (cq *concurrencyQueue) Pop() interface{} {
 	return cq.n.Pop()
 }
 
-func (cq concurrencyQueue) Len() int {
+func (cq *concurrencyQueue) Len() int {
 	cq.RLock()
 	defer cq.RUnlock()
 	return cq.n.Len()
 }
 
-func (cq concurrencyQueue) IsFull() bool {
+func (cq *concurrencyQueue) IsFull() bool {
 	cq.RLock()
 	defer cq.RUnlock()
 	return cq.n.IsFull()
 }
 
-func (cq concurrencyQueue) IsEmpty() bool {
+func (cq *concurrencyQueue) IsEmpty() bool {
 	cq.RLock()
 	defer cq.RUnlock()
 	return cq.n.IsEmpty()

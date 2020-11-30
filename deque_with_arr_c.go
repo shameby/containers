@@ -41,19 +41,19 @@ func (cdr *concurrencyDequeArr) GetRear() interface{} {
 	return cdr.n.GetRear()
 }
 
-func (cdr concurrencyDequeArr) IsEmpty() bool {
+func (cdr *concurrencyDequeArr) IsEmpty() bool {
 	cdr.RLock()
 	defer cdr.RUnlock()
 	return cdr.n.IsEmpty()
 }
 
-func (cdr concurrencyDequeArr) IsFull() bool {
+func (cdr *concurrencyDequeArr) IsFull() bool {
 	cdr.RLock()
 	defer cdr.RUnlock()
 	return cdr.n.IsFull()
 }
 
-func (cdr concurrencyDequeArr) ToList() IList {
+func (cdr *concurrencyDequeArr) ToList() IList {
 	cdr.RLock()
 	defer cdr.RUnlock()
 	return cdr.n.ToList()

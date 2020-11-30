@@ -64,6 +64,14 @@ type SkipList interface {
 	Delete(float64) *SkElem
 	Len() int
 	SetProbability(float64)
+	Fmt()
+}
+
+type Trie interface {
+	Insert(string)
+	Search(string) bool
+	StartWith(string) bool
+	Len() int
 }
 
 type RWLocker interface {

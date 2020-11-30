@@ -3,6 +3,7 @@ package containers
 import (
 	"math"
 	"math/rand"
+	"fmt"
 )
 
 const DefaultProbability = 1 / math.E
@@ -66,13 +67,24 @@ func (ns *normalSkipList) SetProbability(p float64) {
 	return
 }
 
+func (ns normalSkipList) Fmt() {
+	for i := ns.maxLevel - 1; i >= 0; i-- {
+		cur := ns.next[i]
+		for cur != nil {
+			fmt.Print(cur.Key, cur.Score, " | ")
+			cur = cur.next[i]
+		}
+		fmt.Println()
+	}
+}
+
 func (ns normalSkipList) getPreElementNode(score float64) []*elementNode {
 	pre, preList := &ns.elementNode, ns.preNodesCache
 	for i := ns.maxLevel - 1; i >= 0; i-- {
-		next := pre.next[i]
-		for next != nil && score > next.Score {
-			pre = &next.elementNode
-			next = next.next[i]
+		cur := pre.next[i]
+		for cur != nil && score > cur.Score {
+			pre = &cur.elementNode
+			cur = cur.next[i]
 		}
 		preList[i] = pre
 	}

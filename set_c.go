@@ -24,13 +24,13 @@ func (cs *concurrencySet) Delete(i interface{}) bool {
 	return cs.n.Delete(i)
 }
 
-func (cs concurrencySet) IsExist(i interface{}) bool {
+func (cs *concurrencySet) IsExist(i interface{}) bool {
 	cs.RLock()
 	defer cs.RUnlock()
 	return cs.n.IsExist(i)
 }
 
-func (cs concurrencySet) ToList() IList {
+func (cs *concurrencySet) ToList() IList {
 	cs.RLock()
 	defer cs.RUnlock()
 	return cs.n.ToList()

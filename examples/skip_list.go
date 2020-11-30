@@ -21,6 +21,7 @@ func main() {
 		{"一中", "王老师", 67.2},
 		{"二中", "李老师", 70.1},
 		{"三中", "张老师", 88.3},
+		{"二中", "刘老师", 88.3},
 		{"一中", "赵老师", 75.9},
 		{"二中", "严老师", 91.4},
 	}
@@ -30,5 +31,7 @@ func main() {
 	list.Set(tList[2])
 	list.Set(tList[3])
 	list.Set(tList[4])
+	list.Set(tList[5])
 	fmt.Println(list.Get(91.4))
+	list.Fmt()
 }

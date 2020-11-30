@@ -18,19 +18,19 @@ func (cs *concurrencyStack) Pop() (bool, interface{}) {
 	return cs.n.Pop()
 }
 
-func (cs concurrencyStack) Len() int {
+func (cs *concurrencyStack) Len() int {
 	cs.RLock()
 	defer cs.RUnlock()
 	return cs.n.Len()
 }
 
-func (cs concurrencyStack) ToList() IList {
+func (cs *concurrencyStack) ToList() IList {
 	cs.RLock()
 	defer cs.RUnlock()
 	return cs.n.ToList()
 }
 
-func (cs concurrencyStack) Top() interface{} {
+func (cs *concurrencyStack) Top() interface{} {
 	cs.RLock()
 	defer cs.RUnlock()
 	return cs.n.Top()

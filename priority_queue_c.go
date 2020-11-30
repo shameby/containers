@@ -5,7 +5,7 @@ type concurrencyPriorityQueue struct {
 	RWLocker
 }
 
-func (npq concurrencyPriorityQueue) Top() *Elem {
+func (npq *concurrencyPriorityQueue) Top() *Elem {
 	npq.RLock()
 	defer npq.RUnlock()
 	return npq.n.Top()
@@ -29,7 +29,7 @@ func (npq *concurrencyPriorityQueue) GetList() []*Elem {
 	return npq.n.GetList()
 }
 
-func (npq concurrencyPriorityQueue) IsEmpty() bool {
+func (npq *concurrencyPriorityQueue) IsEmpty() bool {
 	npq.RLock()
 	defer npq.RUnlock()
 	return npq.n.IsEmpty()
