@@ -17,6 +17,7 @@ import ds "github.com/shameby/containers"
 - PriorityQueue 底层为堆的优先队列
 - SkipList 跳表
 - Trie 字典树
+- UnionFind 并查集
 
 ### Set
 初始化

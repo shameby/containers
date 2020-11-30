@@ -74,6 +74,13 @@ type Trie interface {
 	Len() int
 }
 
+type UnionFind interface {
+	Append(...string)
+	Union(string, string)
+	Find(string) string
+	Count() int
+}
+
 type RWLocker interface {
 	Lock()
 	Unlock()

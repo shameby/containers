@@ -114,8 +114,18 @@ func NewTrie(locker RWLocker) Trie {
 	n := &normalTrie{&trie{}, 0}
 	if locker != nil {
 		return &concurrencyTrie{
-			n: n,
+			n:        n,
 			RWLocker: locker,
+		}
+	}
+	return n
+}
+
+func NewUnionFind(locker RWLocker) UnionFind {
+	n := &unionFind{0, make(map[string]string)}
+	if locker != nil {
+		return &concurrencyUnionFind{
+			RWLocker: locker, n: n,
 		}
 	}
 	return n
