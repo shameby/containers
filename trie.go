@@ -6,7 +6,7 @@ type normalTrie struct {
 }
 
 type trie struct {
-	next  [24]*trie
+	next  [26]*trie
 	isEnd bool
 }
 
@@ -27,10 +27,9 @@ func (nt normalTrie) Search(word string) bool {
 	cur := nt.trie
 	for _, v := range word {
 		v = v - 'a'
-		if cur.next[v] == nil {
+		if cur = cur.next[v]; cur == nil {
 			return false
 		}
-		cur = cur.next[v]
 	}
 	return cur.isEnd
 }
@@ -39,14 +38,13 @@ func (nt normalTrie) Len() int {
 	return nt.cnt
 }
 
-func (nt normalTrie) StartWith(word string) bool {
+func (nt normalTrie) StartWith(prefix string) bool {
 	cur := nt.trie
-	for _, v := range word {
+	for _, v := range prefix {
 		v = v - 'a'
-		if cur.next[v] == nil {
+		if cur = cur.next[v]; cur == nil {
 			return false
 		}
-		cur = cur.next[v]
 	}
 	return true
 }

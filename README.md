@@ -15,6 +15,8 @@ import ds "github.com/shameby/containers"
 - DequeList 底层为链表的双端队列
 - BinaryTree 二叉树
 - PriorityQueue 底层为堆的优先队列
+- SkipList 跳表
+- Trie 字典树
 
 ### Set
 初始化
