@@ -81,14 +81,14 @@ func (dq *dequeL) DeleteLast() bool {
 
 func (dq *dequeL) GetFront() interface{} {
 	if dq.head == nil {
-		return -1
+		return nil
 	}
 	return dq.head.val
 }
 
 func (dq *dequeL) GetRear() interface{} {
 	if dq.tail == nil {
-		return -1
+		return nil
 	}
 	return dq.tail.val
 }
