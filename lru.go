@@ -2,11 +2,6 @@ package containers
 
 import (
 	"time"
-	"fmt"
-)
-
-const (
-	defaultTTL = 1 * time.Second
 )
 
 type linkNode struct {
@@ -72,14 +67,15 @@ func (lc *lruCache) Put(key string, value string) {
 	}
 }
 
-func (lc *lruCache) TTL() {
+func (lc *lruCache) TTL(ch chan<- string) {
+	defer close(ch)
 	curr := lc.tail.pre
 	for curr != lc.head {
-		fmt.Println(*curr)
 		pre := curr.pre
 		if curr.unix != -1 && time.Now().Unix() > curr.unix {
 			delete(lc.m, curr.key)
 			lc.delete(curr)
+			ch <- curr.key
 			curr = pre
 			continue
 		}

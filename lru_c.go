@@ -27,8 +27,8 @@ func (lc *currencyLRU) Put(key string, value string) {
 	lc.n.Put(key, value)
 }
 
-func (lc *currencyLRU) TTL() {
+func (lc *currencyLRU) TTL(ch chan<- string) {
 	lc.Lock()
 	defer lc.Unlock()
-	lc.n.TTL()
+	lc.n.TTL(ch)
 }

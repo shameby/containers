@@ -18,5 +18,5 @@ func main() {
 	fmt.Println(lc.Get("hhh"))
 	lc.Delete("abc")
 	time.Sleep(2 * time.Second)
-	lc.TTL()
+	lc.TTL(nil)
 }
