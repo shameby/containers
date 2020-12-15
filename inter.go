@@ -91,3 +91,10 @@ type RWLocker interface {
 type IElem interface {
 	KV() (string, float64)
 }
+
+type LRU interface {
+	Get(string) string
+	Put(string, string)
+	Delete(key string)
+	TTL()
+}

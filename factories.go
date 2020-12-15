@@ -4,6 +4,7 @@ import (
 	"time"
 	"unsafe"
 	"math/rand"
+	"sync"
 )
 
 // 队列
@@ -127,6 +128,17 @@ func NewUnionFind(locker RWLocker) UnionFind {
 		return &concurrencyUnionFind{
 			RWLocker: locker, n: n,
 		}
+	}
+	return n
+}
+
+func NewLRU(capacity int, ttl time.Duration, locker sync.Locker) LRU {
+	head := &linkNode{"head", "", -1, nil, nil}
+	tail := &linkNode{"tail", "", -1, head, nil}
+	head.next = tail
+	n := &lruCache{make(map[string]*linkNode), capacity, ttl, head, tail}
+	if locker != nil {
+		return &currencyLRU{n, locker}
 	}
 	return n
 }
